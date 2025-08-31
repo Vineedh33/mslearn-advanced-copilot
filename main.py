@@ -43,10 +43,21 @@ def get_cities(country: str) -> List[str]:
     return list(data[country].keys())
 
 @app.get("/countries/{country}/{city}/{month}")
-def get_monthly_average(country: str, city: str, month: str) -> Dict[str, int]:
+def get_monthly_average(country: str, city: str, month: str) -> Dict[str, dict]:
     """
     Get the monthly average weather data for a given city and month.
-    Returns 404 if the country, city, or month does not exist.
+
+    Parameters:
+    country (str): The country name.
+    city (str): The city name.
+    month (str): The month name.
+
+    Returns:
+    Dict[str, dict]: Dictionary with either 'temperature' or 'rainfall' as key,
+    and a dictionary of weather values as value.
+
+    Raises:
+    HTTPException: 404 if the country, city, or month does not exist.
     """
     if country not in data:
         raise HTTPException(status_code=404, detail="Country not found")
